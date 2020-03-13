@@ -12,6 +12,7 @@ export class AmbulanceLocationsViewerComponent
   implements OnInit, AfterViewInit {
   private map;
   layerGroups: any = {};
+  isVisible: boolean;
   constructor(private ambulanceLocationService: AmbulanceLocationService) {}
 
   ngOnInit(): void {}
@@ -21,19 +22,29 @@ export class AmbulanceLocationsViewerComponent
     this.ambulanceLocationService.getAll().subscribe(locations => {
       Object.keys(locations).map(key => {
         const location = locations[key];
+        const map_url = !location.available
+          ? "assets/images/map_pin.png"
+          : "assets/images/map_pin_available.png";
         const icon = {
           icon: L.icon({
             iconSize: [40, 41],
-            iconUrl: "assets/images/map_pin.png"
+            iconUrl: map_url
           })
         };
         if (!this.layerGroups[key]) {
           this.layerGroups[key] = L.layerGroup().addTo(this.map);
         }
         this.layerGroups[key].clearLayers();
-        L.marker([location.lat, location.lng], icon).addTo(
-          this.layerGroups[key]
-        );
+        L.marker([location.lat, location.lng], icon)
+          .addTo(this.layerGroups[key])
+          .bindTooltip(
+            `Ambulance ${key}<br>Status: ${
+              location.available
+                ? "Available<br><h3>Click to book<h3>"
+                : "Not Available"
+            }`
+          )
+          .on("click", e => {});
       });
     });
   }
