@@ -7,6 +7,6 @@ export class AmbulanceLocationService {
 
   getAll() {
     this.socket.emit("getAllLocations");
-    return this.socket.fromEvent<string[]>("locations");
+    return this.socket.fromEvent<any>("allLocations");
   }
 }
