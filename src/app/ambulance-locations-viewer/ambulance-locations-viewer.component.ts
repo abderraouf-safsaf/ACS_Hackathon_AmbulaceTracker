@@ -48,7 +48,7 @@ export class AmbulanceLocationsViewerComponent
           .bindTooltip(
             `Ambulance ${key}<br>Status: ${
               location.available
-                ? "Available<br><h3>Click to book<h3>"
+                ? "Available<br><h4>Click to assign<h4>"
                 : "Not Available"
             }`
           )

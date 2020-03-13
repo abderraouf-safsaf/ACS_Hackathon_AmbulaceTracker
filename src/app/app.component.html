@@ -1,1 +1,33 @@
-<app-ambulance-locations-viewer></app-ambulance-locations-viewer>
+<nz-layout>
+  <nz-header>
+    <div class="logo">Ng Ambulance Tracker</div>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li nz-menu-item [nzSelected]="true">Track Ambulances</li>
+    </ul>
+  </nz-header>
+  <nz-content>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+      <nz-breadcrumb-item>Track Ambulances</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <div class="inner-content">
+      <div style="width: 100%; text-align: center;">
+        <h1>Ambulance Tracker Web Application</h1>
+      </div>
+      <div>
+        <h2>
+          Available ambulances
+          <nz-badge
+            [nzCount]="nbAvailable"
+            [nzStyle]="{
+              backgroundColor: '#52c41a',
+              marginLeft: '5px'
+            }"
+          ></nz-badge>
+        </h2>
+      </div>
+      <app-ambulance-locations-viewer></app-ambulance-locations-viewer>
+    </div>
+  </nz-content>
+  <nz-footer>Ambulance Tracker ©2020</nz-footer>
+</nz-layout>
