@@ -4,7 +4,9 @@ import { AmbulanceLocationsViewerComponent } from "./ambulance-locations-viewer.
 import { DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+
 import { environment } from "src/environments/environment";
+
 const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
 
 fdescribe("AmbulanceLocationsViewerComponent", () => {

@@ -1,33 +1,27 @@
 import { TestBed } from "@angular/core/testing";
 import { Server } from "mock-socket";
-
+import { environment } from "src/environments/environment";
 import { AmbulanceLocationService } from "./ambulance-location.service";
+import { SocketIoConfig, SocketIoModule } from "ngx-socket-io";
 
-describe("AmbulanceLocationService", () => {
+const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
+
+fdescribe("AmbulanceLocationService", () => {
   let ambulanceLocationService: AmbulanceLocationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [SocketIoModule.forRoot(config)],
       providers: [AmbulanceLocationService]
     });
     ambulanceLocationService = TestBed.get(AmbulanceLocationService);
-    const fakeURL = "ws://localhost:8080";
-    const mockServer = new Server(fakeURL);
-
-    mockServer.on("connection", socket => {
-      socket.on("message", data => {
-        //t.is(data, 'test message from app', 'we have intercepted the message and can assert on it');
-        socket.send("test message from mock server");
-      });
-    });
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
   });
 
   it("service should be created", () => {
     expect(ambulanceLocationService).toBeTruthy();
   });
 
-  it("should retrieve all ambulances locaitons", () => {
+  fit("should retrieve all ambulances locations", () => {
     ambulanceLocationService.getAll().subscribe(ambulanceLocations => {
       console.log({ ambulanceLocations });
       expect(ambulanceLocations).toBeTruthy("No locations returned");
