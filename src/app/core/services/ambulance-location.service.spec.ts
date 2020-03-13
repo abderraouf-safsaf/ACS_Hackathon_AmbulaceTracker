@@ -7,7 +7,7 @@ import io from "socket.io-client";
 
 const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
 
-fdescribe("AmbulanceLocationService", () => {
+describe("AmbulanceLocationService", () => {
   let ambulanceLocationService: AmbulanceLocationService;
   let socket;
 
@@ -30,7 +30,7 @@ fdescribe("AmbulanceLocationService", () => {
     expect(ambulanceLocationService).toBeTruthy();
   });
 
-  fit("should retrieve all ambulances locations", () => {
+  it("should retrieve all ambulances locations", () => {
     ambulanceLocationService.getAll().subscribe(ambulanceLocations => {
       expect(ambulanceLocations).toBeTruthy("No locations returned");
     });

@@ -6,27 +6,30 @@ import { By } from "@angular/platform-browser";
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 
 import { environment } from "src/environments/environment";
+import { AmbulanceLocationService } from "../core/services/ambulance-location.service";
+import { of } from "rxjs";
+import { WebSocket, Server } from "mock-socket";
 
 const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
 
-fdescribe("AmbulanceLocationsViewerComponent", () => {
+const MOCK_AMBULANCES_LOCATIONS = {
+  1: { lat: 32.7766642, lng: -96.7969879 },
+  2: { lat: 32.7766642, lng: -96.0969879 }
+};
+describe("AmbulanceLocationsViewerComponent", () => {
   let component: AmbulanceLocationsViewerComponent;
   let fixture: ComponentFixture<AmbulanceLocationsViewerComponent>;
   let el: DebugElement;
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SocketIoModule.forRoot(config)],
       declarations: [AmbulanceLocationsViewerComponent]
     }).compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(AmbulanceLocationsViewerComponent);
     el = fixture.debugElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
   it("should create the component", () => {
     expect(component).toBeTruthy();
   });
@@ -36,5 +39,23 @@ fdescribe("AmbulanceLocationsViewerComponent", () => {
     expect(tabs.length).toBe(1, "Map not found");
   });
 
-  it("should display ambulances markers in tha map", () => {});
+  fit("should display ambulances markers in tha map", () => {
+    const fakeURL = "ws://localhost:8080";
+    const mockServer = new Server(fakeURL);
+
+    mockServer.on("connection", socket => {
+      socket.on("message", data => {
+        socket.send("test message from mock server");
+      });
+    });
+    /*ambulanceLocationService.getAll.and.returnValue(
+      of(MOCK_AMBULANCES_LOCATIONS)
+    );
+    fixture.detectChanges();
+    const markers = el.queryAll(By.css(".leaflet-marker-icon"));
+    expect(markers.length).toBe(
+      Object.keys(MOCK_AMBULANCES_LOCATIONS).length,
+      "Unexpected number of markers found"
+    );*/
+  });
 });

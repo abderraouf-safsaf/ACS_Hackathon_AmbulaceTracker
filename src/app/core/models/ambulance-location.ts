@@ -1,4 +1,4 @@
 export interface AmbulanceLocation {
-  lng: Number;
-  lat: Number;
+  lng: number;
+  lat: number;
 }
