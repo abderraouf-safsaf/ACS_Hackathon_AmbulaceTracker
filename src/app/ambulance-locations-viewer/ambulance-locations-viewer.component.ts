@@ -30,39 +30,41 @@ export class AmbulanceLocationsViewerComponent
     this.ambulanceLocationService.getAll().subscribe(locations => {
       Object.keys(locations).map(key => {
         const location = locations[key];
-        const map_url = !location.available
-          ? "assets/images/map_pin.png"
-          : "assets/images/map_pin_available.png";
-        const icon = {
-          icon: L.icon({
-            iconSize: [40, 41],
-            iconUrl: map_url
-          })
-        };
-        if (!this.layerGroups[key]) {
-          this.layerGroups[key] = L.layerGroup().addTo(this.map);
-        }
-        this.layerGroups[key].clearLayers();
-        L.marker([location.lat, location.lng], icon)
-          .addTo(this.layerGroups[key])
-          .bindTooltip(
-            `Ambulance ${key}<br>Status: ${
-              location.available
-                ? "Available<br><h4>Click to assign<h4>"
-                : "Not Available"
-            }`
-          )
-          .on("click", e => {
-            if (location.available) {
-              this.selectedAmbulance = location;
-              this.selectedAmbulanceId = key;
-              this.isVisible = true;
-            }
-          });
+        this.addMarker(key, location);
       });
     });
   }
 
+  addMarker(key, location) {
+    const icon = {
+      icon: L.icon({
+        iconSize: [40, 41],
+        iconUrl: !location.available
+          ? "assets/images/map_pin.png"
+          : "assets/images/map_pin_available.png"
+      })
+    };
+    if (!this.layerGroups[key]) {
+      this.layerGroups[key] = L.layerGroup().addTo(this.map);
+    }
+    this.layerGroups[key].clearLayers();
+    L.marker([location.lat, location.lng], icon)
+      .addTo(this.layerGroups[key])
+      .bindTooltip(
+        `Ambulance ${key}<br>Status: ${
+          location.available
+            ? "Available<br><h4>Click to assign<h4>"
+            : "Not Available"
+        }`
+      )
+      .on("click", e => {
+        if (location.available) {
+          this.selectedAmbulance = location;
+          this.selectedAmbulanceId = key;
+          this.isVisible = true;
+        }
+      });
+  }
   handleCancel() {
     this.isVisible = false;
   }
@@ -83,10 +85,10 @@ export class AmbulanceLocationsViewerComponent
   private initMap(): void {
     this.map = L.map("map", {
       center: [32.7766642, -96.7969879],
-      zoom: 16,
+      zoom: 14,
       layers: [
         L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          maxZoom: 16,
+          maxZoom: 14,
           attribution: "..."
         })
       ]

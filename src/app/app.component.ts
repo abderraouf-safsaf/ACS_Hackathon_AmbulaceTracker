@@ -11,7 +11,7 @@ export class AppComponent {
   title = "ng-ambulance-tracker";
   nbAvailable: number = 0;
   constructor(private ambulanceLocationService: AmbulanceLocationService) {
-    ambulanceLocationService.getAll().subscribe(locations => {
+    this.ambulanceLocationService.getAll().subscribe(locations => {
       this.nbAvailable = Object.keys(locations).length;
     });
   }
