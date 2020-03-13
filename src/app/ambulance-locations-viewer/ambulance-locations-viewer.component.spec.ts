@@ -1,0 +1,32 @@
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+
+import { AmbulanceLocationsViewerComponent } from "./ambulance-locations-viewer.component";
+import { DebugElement } from "@angular/core";
+import { By } from "@angular/platform-browser";
+
+fdescribe("AmbulanceLocationsViewerComponent", () => {
+  let component: AmbulanceLocationsViewerComponent;
+  let fixture: ComponentFixture<AmbulanceLocationsViewerComponent>;
+  let el: DebugElement;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [AmbulanceLocationsViewerComponent]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AmbulanceLocationsViewerComponent);
+    el = fixture.debugElement;
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it("should create the component", () => {
+    expect(component).toBeTruthy();
+  });
+
+  it("should display the Open Street Map", () => {
+    const tabs = el.queryAll(By.css("#map"));
+    expect(tabs.length).toBe(1, "Map not found");
+  });
+});

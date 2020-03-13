@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~9.0.0",
     "@angular/platform-browser-dynamic": "~9.0.0",
     "@angular/router": "~9.0.0",
+    "leaflet": "^1.6.0",
     "mock-socket": "^9.0.3",
     "ngx-socket-io": "^3.0.1",
     "rxjs": "~6.5.4",
