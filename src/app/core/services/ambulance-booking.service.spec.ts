@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { AmbulanceBookingService } from './ambulance-booking.service';
+import { AmbulanceAssignmentService } from "./ambulance-booking.service";
 
-describe('AmbulanceBookingService', () => {
-  let service: AmbulanceBookingService;
+describe("AmbulanceBookingService", () => {
+  let service: AmbulanceAssignmentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AmbulanceBookingService);
+    service = TestBed.inject(AmbulanceAssignmentService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

@@ -1,12 +1,14 @@
 import { Component, OnInit, AfterViewInit } from "@angular/core";
 import * as L from "leaflet";
 import { AmbulanceLocationService } from "../core/services/ambulance-location.service";
-import { AmbulanceLocation } from "../core/models/ambulance-location";
+import { AmbulanceAssignmentService } from "../core/services/ambulance-assignment.service";
+import { NzMessageService } from "ng-zorro-antd/message";
+
 @Component({
   selector: "app-ambulance-locations-viewer",
   templateUrl: "./ambulance-locations-viewer.component.html",
   styleUrls: ["./ambulance-locations-viewer.component.css"],
-  providers: [AmbulanceLocationService]
+  providers: [AmbulanceLocationService, AmbulanceAssignmentService]
 })
 export class AmbulanceLocationsViewerComponent
   implements OnInit, AfterViewInit {
@@ -15,7 +17,11 @@ export class AmbulanceLocationsViewerComponent
   isVisible: boolean;
   selectedAmbulance: any;
   selectedAmbulanceId: any;
-  constructor(private ambulanceLocationService: AmbulanceLocationService) {}
+  constructor(
+    private ambulanceLocationService: AmbulanceLocationService,
+    private ambulanceAssignmentService: AmbulanceAssignmentService,
+    private messageService: NzMessageService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -47,9 +53,11 @@ export class AmbulanceLocationsViewerComponent
             }`
           )
           .on("click", e => {
-            this.selectedAmbulance = location;
-            this.selectedAmbulanceId = key;
-            this.isVisible = true;
+            if (location.available) {
+              this.selectedAmbulance = location;
+              this.selectedAmbulanceId = key;
+              this.isVisible = true;
+            }
           });
       });
     });
@@ -59,13 +67,26 @@ export class AmbulanceLocationsViewerComponent
     this.isVisible = false;
   }
 
+  handleAssign() {
+    this.ambulanceAssignmentService
+      .assignAmbulance(this.selectedAmbulanceId, {
+        patient_name: "Patient Name"
+      })
+      .subscribe(response => {
+        this.handleCancel();
+        this.messageService.success(
+          `Ambulance ${this.selectedAmbulanceId} assigned successfully`
+        );
+      });
+  }
+
   private initMap(): void {
     this.map = L.map("map", {
       center: [32.7766642, -96.7969879],
       zoom: 16,
       layers: [
         L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          maxZoom: 5,
+          maxZoom: 16,
           attribution: "..."
         })
       ]

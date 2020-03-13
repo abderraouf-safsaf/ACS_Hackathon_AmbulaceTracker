@@ -7,29 +7,31 @@
 <nz-modal
   *ngIf="selectedAmbulance"
   [(nzVisible)]="isVisible"
-  nzTitle="Book ambulance"
-  nzOkText="Book now"
+  nzTitle="Assign ambulance"
+  nzOkText="Assign now"
   (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleAssign()"
   ><div style="width: 100%; text-align: center; margin-bottom: 20px;">
     <nz-avatar
       [nzSize]="64"
       nzIcon="car"
       style="background-color:#ca2222"
     ></nz-avatar>
-    <h3 style="margin-top: 10px">Ambulance: {{ selectedAmbulanceId }}</h3>
+    <h3 style="margin-top: 10px">Ambulance {{ selectedAmbulanceId }}</h3>
+    Assign to:
   </div>
   <form nz-form>
     <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Date</nz-form-label>
-      <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-date-picker></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
+      <nz-input-group nzPrefixIcon="user">
+        <input
+          type="text"
+          nz-input
+          placeholder="Patient name"
+        /> </nz-input-group
+    ></nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Time</nz-form-label>
-      <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-time-picker></nz-time-picker>
-      </nz-form-control>
-    </nz-form-item>
+      <nz-input-group nzPrefixIcon="pushpin">
+        <input nz-input placeholder="Patient address"/></nz-input-group
+    ></nz-form-item>
   </form>
 </nz-modal>
