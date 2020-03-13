@@ -11,7 +11,7 @@ import { AmbulanceLocation } from "../core/models/ambulance-location";
 export class AmbulanceLocationsViewerComponent
   implements OnInit, AfterViewInit {
   private map;
-  layers: any = [];
+  layerGroups: any = {};
   constructor(private ambulanceLocationService: AmbulanceLocationService) {}
 
   ngOnInit(): void {}
@@ -19,15 +19,21 @@ export class AmbulanceLocationsViewerComponent
   ngAfterViewInit(): void {
     this.initMap();
     this.ambulanceLocationService.getAll().subscribe(locations => {
-      Object.values(locations).map((l: AmbulanceLocation) => {
+      Object.keys(locations).map(key => {
+        const location = locations[key];
         const icon = {
           icon: L.icon({
             iconSize: [40, 41],
-            // specify the path here
             iconUrl: "assets/images/map_pin.png"
           })
         };
-        L.marker([l.lat, l.lng], icon).addTo(this.map);
+        if (!this.layerGroups[key]) {
+          this.layerGroups[key] = L.layerGroup().addTo(this.map);
+        }
+        this.layerGroups[key].clearLayers();
+        L.marker([location.lat, location.lng], icon).addTo(
+          this.layerGroups[key]
+        );
       });
     });
   }
@@ -35,7 +41,7 @@ export class AmbulanceLocationsViewerComponent
   private initMap(): void {
     this.map = L.map("map", {
       center: [32.7766642, -96.7969879],
-      zoom: 10,
+      zoom: 16,
       layers: [
         L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 18,

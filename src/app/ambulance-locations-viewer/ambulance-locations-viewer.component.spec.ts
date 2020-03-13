@@ -12,10 +12,6 @@ import { WebSocket, Server } from "mock-socket";
 
 const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
 
-const MOCK_AMBULANCES_LOCATIONS = {
-  1: { lat: 32.7766642, lng: -96.7969879 },
-  2: { lat: 32.7766642, lng: -96.0969879 }
-};
 describe("AmbulanceLocationsViewerComponent", () => {
   let component: AmbulanceLocationsViewerComponent;
   let fixture: ComponentFixture<AmbulanceLocationsViewerComponent>;
