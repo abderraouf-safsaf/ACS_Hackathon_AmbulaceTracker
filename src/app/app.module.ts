@@ -6,13 +6,13 @@ import { environment } from "src/environments/environment";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AmbulanceLocationsViewerComponent } from './ambulance-locations-viewer/ambulance-locations-viewer.component';
+import { AmbulanceLocationsViewerComponent } from "./ambulance-locations-viewer/ambulance-locations-viewer.component";
 
 const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
 
 @NgModule({
   declarations: [AppComponent, AmbulanceLocationsViewerComponent],
-  imports: [BrowserModule, SocketIoModule.forRoot(config), AppRoutingModule],
+  imports: [SocketIoModule.forRoot(config), BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })
