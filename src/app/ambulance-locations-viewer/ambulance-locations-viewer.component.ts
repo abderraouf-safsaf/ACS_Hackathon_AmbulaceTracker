@@ -13,6 +13,8 @@ export class AmbulanceLocationsViewerComponent
   private map;
   layerGroups: any = {};
   isVisible: boolean;
+  selectedAmbulance: any;
+  selectedAmbulanceId: any;
   constructor(private ambulanceLocationService: AmbulanceLocationService) {}
 
   ngOnInit(): void {}
@@ -44,9 +46,17 @@ export class AmbulanceLocationsViewerComponent
                 : "Not Available"
             }`
           )
-          .on("click", e => {});
+          .on("click", e => {
+            this.selectedAmbulance = location;
+            this.selectedAmbulanceId = key;
+            this.isVisible = true;
+          });
       });
     });
+  }
+
+  handleCancel() {
+    this.isVisible = false;
   }
 
   private initMap(): void {
@@ -55,7 +65,7 @@ export class AmbulanceLocationsViewerComponent
       zoom: 16,
       layers: [
         L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          maxZoom: 18,
+          maxZoom: 5,
           attribution: "..."
         })
       ]
